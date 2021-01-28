@@ -1,0 +1,159 @@
+---
+title: "Report"
+author: "Ilyes Baali"
+date: "1/27/2021"
+output: 
+  html_document: 
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Extract the barcode sequences
+The command to extract the unique barcode sequences for each read is achieved using a chain of simple commands.
+
+### Extract the indentifier lines from demo.fastq file
+```{bash, eval=FALSE}
+egrep '^@' demo.fastq
+```
+The command above uses rugular expression to obtain the lines that start with `@`, these lines are the identifier lines
+
+### Obtaining the last set of alphabetic characters 
+
+```{bash, eval=FALSE}
+egrep '^@' demo.fastq | cut -d ' ' -f 2
+```
+The command splits the each line by space (-d ' '), then obtain the second part of the split (-f 2)
+
+### Sort the lines alphabetically
+```{bash, eval=FALSE}
+egrep '^@' demo.fastq | cut -d ' ' -f 2 | sort
+```
+
+### Obtain the unique barcodes 
+```{bash, eval=FALSE}
+egrep '^@' demo.fastq | cut -d ' ' -f 2 | sort |cut -d ':' -f 4
+```
+This step is carried to remove duplicate barcodes. Something to note is that using `sort` before `uniq` is important to get rid of duplicates. reversing the order doesn't result in the desired output
+
+### Obtain the barcode sequences
+This step is acheived is by splitting the unique barcodes by `:` and extracting the 4th part which represent the barcode sequence
+```{bash, eval=FALSE}
+egrep '^@' demo.fastq | cut -d ' ' -f 2 | sort |uniq | cut -d ':' -f 4
+```
+
+### Result
+```{bash, eval=FALSE}
+AAGTGG
+CAGTGG
+GAATGG
+GACTGG
+GAGAGG
+GAGCGG
+GAGGGG
+GAGTAG
+GAGTCG
+GAGTGA
+GAGTGC
+GAGTGG
+GAGTGT
+GAGTTG
+GATTGG
+GCGTGG
+GGGTGG
+GTGTGG
+NAGTGG
+TAGTGG
+```
+
+
+# For loops
+
+```{bash, eval=FALSE}
+for file in *.pdb; do 
+  echo "FileName: ${file}"; 
+  echo "Number of lines= $(cat $file | wc -l)"; 
+  echo "Number of atoms= $(egrep '^ATOM' $file | wc -l)";
+  echo 'Source Organism(s): ' ;
+  egrep 'ORGANISM_SCIENTIFIC:' 1TAW.pdb | cut -d ':' -f 2; 
+  echo -e '\n';  
+done
+```
+
+## Output
+```{bash, eval=FALSE}
+
+FileName: 1A3B.pdb
+Number of lines= 2983
+Number of atoms= 2325
+Source Organism(s): 
+ BOS TAURUS;                                     
+ HOMO SAPIENS;                                   
+
+
+FileName: 1AAP.pdb
+Number of lines= 1068
+Number of atoms= 866
+Source Organism(s): 
+ BOS TAURUS;                                     
+ HOMO SAPIENS;                                   
+
+
+FileName: 1BTH.pdb
+Number of lines= 6359
+Number of atoms= 5812
+Source Organism(s): 
+ BOS TAURUS;                                     
+ HOMO SAPIENS;                                   
+
+
+FileName: 1DZI.pdb
+Number of lines= 2895
+Number of atoms= 1714
+Source Organism(s): 
+ BOS TAURUS;                                     
+ HOMO SAPIENS;                                   
+
+
+FileName: 1M3D.pdb
+Number of lines= 23352
+Number of atoms= 20797
+Source Organism(s): 
+ BOS TAURUS;                                     
+ HOMO SAPIENS;                                   
+
+
+FileName: 1NMJ.pdb
+Number of lines= 543
+Number of atoms= 427
+Source Organism(s): 
+ BOS TAURUS;                                     
+ HOMO SAPIENS;                                   
+
+
+FileName: 1O91.pdb
+Number of lines= 4057
+Number of atoms= 3120
+Source Organism(s): 
+ BOS TAURUS;                                     
+ HOMO SAPIENS;                                   
+
+
+FileName: 1TAW.pdb
+Number of lines= 2520
+Number of atoms= 2044
+Source Organism(s): 
+ BOS TAURUS;                                     
+ HOMO SAPIENS;                                   
+
+
+FileName: 1Y0F.pdb
+Number of lines= 4259
+Number of atoms= 2800
+Source Organism(s): 
+ BOS TAURUS;                                     
+ HOMO SAPIENS;
+
+```
