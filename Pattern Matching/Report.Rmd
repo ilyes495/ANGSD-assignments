@@ -1,5 +1,5 @@
 ---
-title: "Report"
+title: "Exercise: Pattern matching and for loops"
 author: "Ilyes Baali"
 date: "1/27/2021"
 output: 
@@ -77,28 +77,25 @@ for file in *.pdb; do
   echo "Number of lines= $(cat $file | wc -l)"; 
   echo "Number of atoms= $(egrep '^ATOM' $file | wc -l)";
   echo 'Source Organism(s): ' ;
-  egrep 'ORGANISM_SCIENTIFIC:' 1TAW.pdb | cut -d ':' -f 2; 
+  egrep 'ORGANISM_SCIENTIFIC:' $file | cut -d ':' -f 2; 
   echo -e '\n';  
 done
 ```
 
 ## Output
 ```{bash, eval=FALSE}
-
 FileName: 1A3B.pdb
 Number of lines= 2983
 Number of atoms= 2325
 Source Organism(s): 
- BOS TAURUS;                                     
  HOMO SAPIENS;                                   
+ HIRUDO MEDICINALIS;                             
 
 
 FileName: 1AAP.pdb
 Number of lines= 1068
 Number of atoms= 866
 Source Organism(s): 
- BOS TAURUS;                                     
- HOMO SAPIENS;                                   
 
 
 FileName: 1BTH.pdb
@@ -106,14 +103,13 @@ Number of lines= 6359
 Number of atoms= 5812
 Source Organism(s): 
  BOS TAURUS;                                     
- HOMO SAPIENS;                                   
+ BOS TAURUS;                                     
 
 
 FileName: 1DZI.pdb
 Number of lines= 2895
 Number of atoms= 1714
 Source Organism(s): 
- BOS TAURUS;                                     
  HOMO SAPIENS;                                   
 
 
@@ -122,23 +118,21 @@ Number of lines= 23352
 Number of atoms= 20797
 Source Organism(s): 
  BOS TAURUS;                                     
- HOMO SAPIENS;                                   
+ BOS TAURUS;                                     
 
 
 FileName: 1NMJ.pdb
 Number of lines= 543
 Number of atoms= 427
 Source Organism(s): 
- BOS TAURUS;                                     
- HOMO SAPIENS;                                   
+ RATTUS NORVEGICUS;                              
 
 
 FileName: 1O91.pdb
 Number of lines= 4057
 Number of atoms= 3120
 Source Organism(s): 
- BOS TAURUS;                                     
- HOMO SAPIENS;                                   
+ MUS MUSCULUS;                                   
 
 
 FileName: 1TAW.pdb
@@ -153,7 +147,7 @@ FileName: 1Y0F.pdb
 Number of lines= 4259
 Number of atoms= 2800
 Source Organism(s): 
- BOS TAURUS;                                     
- HOMO SAPIENS;
-
+ RATTUS NORVEGICUS;                              
+ RATTUS NORVEGICUS;
+ 
 ```
