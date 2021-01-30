@@ -270,7 +270,7 @@ TAGTGG</code></pre>
   echo &quot;Number of lines= $(cat $file | wc -l)&quot;; 
   echo &quot;Number of atoms= $(egrep &#39;^ATOM&#39; $file | wc -l)&quot;;
   echo &#39;Source Organism(s): &#39; ;
-  egrep &#39;ORGANISM_SCIENTIFIC:&#39; $file | cut -d &#39;:&#39; -f 2; 
+  egrep &#39;ORGANISM_SCIENTIFIC:&#39; $file | cut -d &#39;:&#39; -f 2 | sort | uniq; 
   echo -e &#39;\n&#39;;  
 done</code></pre>
 <div id="output" class="section level2">
@@ -279,8 +279,8 @@ done</code></pre>
 Number of lines= 2983
 Number of atoms= 2325
 Source Organism(s): 
- HOMO SAPIENS;                                   
  HIRUDO MEDICINALIS;                             
+ HOMO SAPIENS;                                   
 
 
 FileName: 1AAP.pdb
@@ -293,7 +293,6 @@ FileName: 1BTH.pdb
 Number of lines= 6359
 Number of atoms= 5812
 Source Organism(s): 
- BOS TAURUS;                                     
  BOS TAURUS;                                     
 
 
@@ -308,7 +307,6 @@ FileName: 1M3D.pdb
 Number of lines= 23352
 Number of atoms= 20797
 Source Organism(s): 
- BOS TAURUS;                                     
  BOS TAURUS;                                     
 
 
@@ -339,8 +337,7 @@ Number of lines= 4259
 Number of atoms= 2800
 Source Organism(s): 
  RATTUS NORVEGICUS;                              
- RATTUS NORVEGICUS;
- </code></pre>
+</code></pre>
 </div>
 </div>
 
