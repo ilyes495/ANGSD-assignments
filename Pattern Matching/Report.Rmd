@@ -77,7 +77,7 @@ for file in *.pdb; do
   echo "Number of lines= $(cat $file | wc -l)"; 
   echo "Number of atoms= $(egrep '^ATOM' $file | wc -l)";
   echo 'Source Organism(s): ' ;
-  egrep 'ORGANISM_SCIENTIFIC:' $file | cut -d ':' -f 2; 
+  egrep 'ORGANISM_SCIENTIFIC:' $file | cut -d ':' -f 2 | sort | uniq; 
   echo -e '\n';  
 done
 ```
@@ -88,8 +88,8 @@ FileName: 1A3B.pdb
 Number of lines= 2983
 Number of atoms= 2325
 Source Organism(s): 
- HOMO SAPIENS;                                   
  HIRUDO MEDICINALIS;                             
+ HOMO SAPIENS;                                   
 
 
 FileName: 1AAP.pdb
@@ -102,7 +102,6 @@ FileName: 1BTH.pdb
 Number of lines= 6359
 Number of atoms= 5812
 Source Organism(s): 
- BOS TAURUS;                                     
  BOS TAURUS;                                     
 
 
@@ -117,7 +116,6 @@ FileName: 1M3D.pdb
 Number of lines= 23352
 Number of atoms= 20797
 Source Organism(s): 
- BOS TAURUS;                                     
  BOS TAURUS;                                     
 
 
@@ -148,6 +146,5 @@ Number of lines= 4259
 Number of atoms= 2800
 Source Organism(s): 
  RATTUS NORVEGICUS;                              
- RATTUS NORVEGICUS;
- 
+
 ```
