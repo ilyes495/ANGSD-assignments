@@ -1,0 +1,66 @@
+---
+title: "Sequencing Data"
+author: "Ilyes Baali"
+date: "2/4/2021"
+output: 
+  html_document: 
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Downlaod Data
+1- First step is to obtain all the RunAccession code for WT biological replicate no.2, there are 7 files, each file represent a technical replicate. The reason we have several technical replicates is to make sure that the down analysis is not affected by technical errors during library preparation or sequencing. 
+2- For each RunAccession grep the fastq url to download the file
+3- Save the URLs to urls_to_downlaod.txt file
+```{bash, eval=FALSE}
+allowedERR=$(cat ERP004763_sample_mapping.txt | egrep $'WT\t2$' | cut -d $'\t' -f 1)
+for ERR in $allowedERR; do 
+  cat filereport_read_run_PRJEB5348_tsv.txt | egrep $ERR; done | cut -d $'\t' -f 7 > urls_to_downlaod.txt
+```
+
+4- Download the files using the URLs in  urls_to_downlaod.txt file. Save all the files to "fastq" folder.
+```{bash, eval=FALSE}
+  cat urls_to_downlaod.txt | while read url; do wget $url -P fastq/
+done
+```
+
+## Files analysis
+
+### Count the numbre of lines
+```{bash, eval=FALSE}
+for file in *; do 
+  echo $file': '$(zcat $file | wc -l)
+done
+```
+
+#### output:
+```{bash, eval=FALSE}
+ERR458878.fastq.gz: 5870276
+ERR458879.fastq.gz: 5800048
+ERR458880.fastq.gz: 5766276
+ERR458881.fastq.gz: 5286992
+ERR458882.fastq.gz: 4527136
+ERR458883.fastq.gz: 4562752
+ERR458884.fastq.gz: 5846584
+```
+
+### Count the number reads per file
+```{bash, eval=FALSE}
+for file in *; do 
+  echo $file': Number of reads = '$(zcat $file | echo $(( `wc -l` / 4))) 
+done
+```
+
+#### output:
+```{bash, eval=FALSE}
+ERR458878.fastq.gz: Number of reads = 1467569
+ERR458879.fastq.gz: Number of reads = 1450012
+ERR458880.fastq.gz: Number of reads = 1441569
+ERR458881.fastq.gz: Number of reads = 1321748
+ERR458882.fastq.gz: Number of reads = 1131784
+ERR458883.fastq.gz: Number of reads = 1140688
+ERR458884.fastq.gz: Number of reads = 1461646
+```
